@@ -1,0 +1,23 @@
+{
+    "config": {
+      "strict": false
+    },
+    "PORT": 8000,
+    "DATABASE_URL": "127.0.0.1",
+    "DATABASE_PORT": "3306",
+    "DB_USERNAME": "nft",
+    "DB_PASSWORD": "nft",
+    "DB_NAME": "nft_marketplace",
+    "DB_DIALECT": "mysql", 
+    "DB_LOGGING": false, 
+    "DB_POOL_MAX": 1, 
+    "DB_POOL_MIN": 0,
+    "DB_POOL_ACQUIRE": 30000, 
+    "DB_POOL_IDLE": 10000,
+    "LOG_FILE_NAME": "nft",
+    "LOG_FILE_LOCATION": "/app/logs/",
+    "APP_NAME": "nft-markplace",
+    "CATEGORY": "estate",
+    "MARKET_PLACE_URL": "https://api.thegraph.com/subgraphs/name/decentraland/marketplace"
+  
+  }

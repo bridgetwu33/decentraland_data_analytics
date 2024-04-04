@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "62aff234-7b30-4de4-a114-43f91df01afe",
+		"name": "NFT_DECENTLAND",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6711410"
+	},
+	"item": [
+		{
+			"name": "prepareProcessData",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-header-ip",
+						"type": "text",
+						"value": "22.22.22.22",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"from\": \"20240301\",\r\n    \"to\": \"20240302\",\r\n    \"includeFromDate\": true\r\n\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/nft/prepareProcessData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"nft",
+						"prepareProcessData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "processAllMarketplaceData",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-header-ip",
+						"type": "text",
+						"value": "22.22.22.22",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/nft/processAllMarketplaceDatas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"nft",
+						"processAllMarketplaceDatas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "processMarketplaceByDate",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-header-ip",
+						"type": "text",
+						"value": "22.22.22.22",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"category\": \"estate\",\r\n    \"day\": \"20240301\",\r\n    \"pageSize\": \"10\",\r\n    \"pageNumber\": 1,\r\n    \"maxSize\": 5\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/nft/processMarketplaceByDate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"nft",
+						"processMarketplaceByDate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

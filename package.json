@@ -1,0 +1,47 @@
+{
+  "name": "decentraland-marketplace-data",
+  "version": "1.0.0",
+  "description": "Get Decentraland's Marketplace subgraph Data",
+  "main": "lib/server.js",
+  "module": "src/server.js",
+  "scripts": {
+    "start": "nodemon ./start.js",
+    "dev": "node start.js",
+    "start-nft": "PORT=8000 pm2 start --name nft-server -i 1 start.js",
+    "stop-nft": "pm2 stop nft-server",
+    "stop-all": "pm2 stop all",
+    "restart": "pm2 restart all",
+    "delete": "pm2 delete all"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "body-parser": "^1.18.2",
+    "cls-rtracer": "^2.6.3",
+    "config": "^3.3.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "events": "^3.3.0",
+    "express": "^4.18.2",
+    "pm2": "^5.3.0",
+    "sequelize": "^6.32.1",
+    "graphql-request": "^3.5.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.0",
+    "winston": "3.10.0",
+    "winston-daily-rotate-file": "4.7.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "7.10.1",
+    "@babel/node": "7.10.1",
+    "@babel/plugin-transform-runtime": "7.10.1",
+    "@babel/preset-env": "7.10.1",
+    "@babel/register": "7.10.1",
+    "@types/node": "^20.5.0",
+    "babel-eslint": "10.0.2",
+    "nodemon": "^3.1.0"
+  }
+}
