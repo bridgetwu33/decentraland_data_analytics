@@ -12,21 +12,12 @@ function generateGraphQLQuery(category, first, skip, updatedAt_gt) {
     {
       orders(first: ${first}, skip: ${skip}, orderBy: updatedAt, orderDirection: asc, where: { status: sold, category: "${category}", updatedAt_gt: "${updatedAt_gt}" }) {
         category
-        nftAddress
         price
         status
         id
         updatedAt
-        blockNumber
         nft {
-          owner {
-            id
-          }
-          name
-          tokenURI
-          owner {
-            id
-          }
+          id
         }
       }
     }
@@ -167,16 +158,12 @@ export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, up
             // Create a new record in the orders table using Sequelize
             await sequelize.models.orders.create({
               category: order.category,
+              nftId: order.nft.id,
               processDate: updatedAt_gt,
-              nftAddress: order.nftAddress,
               price: order.price,
               status: order.status,
               orderId: order.id,
-              updatedAt: order.updatedAt,
-              blockNumber: order.blockNumber,
-              nftOwnerId: order.nft.owner.id,
-              nftName: order.nft.name ?? "", // Default to empty string if null
-              nftTokenUri: order.nft.tokenURI ?? "" // Default to empty string if null
+              updatedAt: order.updatedAt
             });
             savedRecordsCount++;
           } catch (error) {

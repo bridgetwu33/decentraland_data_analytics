@@ -18,9 +18,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      nftAddress: {
+      nftId: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: 'nft_id'
       },
       price: {
         type: DataTypes.STRING,
@@ -39,26 +40,6 @@ module.exports = (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: false,
         field: 'updated_at'
-      },
-      blockNumber: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        field: 'block_number'
-      },
-      nftOwnerId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: 'nft_owner_id'
-      },
-      nftName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: 'nft_name'
-      },
-      nftTokenUri: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: 'nft_token_uri'
       }
   }, {
     tableName: 'orders',
