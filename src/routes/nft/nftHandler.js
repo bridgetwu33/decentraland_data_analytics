@@ -245,12 +245,12 @@ export  const createProcessRecord = async(days) => {
           // Other necessary properties...
         });
 
-        const result2 = await nftDataProcess.create({
-          type: 'estate',
-          processDate: date,
-          status: 'Initial'
-          // Other necessary properties...
-        });
+        // const result2 = await nftDataProcess.create({
+        //   type: 'estate',
+        //   processDate: date,
+        //   status: 'Initial'
+        //   // Other necessary properties...
+        // });
 
         logger.info(`create nftDataProcess date ${date}`);
         // Add object with id and date to the results array
