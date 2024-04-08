@@ -58,3 +58,22 @@ export function getDateRange(fromDate, toDate, includeFromDate = false) {
   // Return the date range array
   return dateRange;
 }
+
+// Function to convert YYYYMMDD to Unix timestamp with start of day
+export function convertToUnixTimestampOfDate(dateString) {
+  // Parse the date string using moment
+  const date = moment(dateString, 'YYYYMMDD');
+  
+  // Calculate the Unix timestamp for the beginning of the date (start of day)
+  const startOfDayUnixTimestamp = date.startOf('day').unix();
+
+  // Calculate the Unix timestamp for the end of the date (end of day)
+  const endOfDayUnixTimestamp = date.endOf('day').unix();
+
+
+  // Return an object containing both timestamps
+  return {
+      startOfDay: startOfDayUnixTimestamp,
+      endOfDay: endOfDayUnixTimestamp
+  };
+}

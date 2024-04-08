@@ -3,14 +3,17 @@ const { request } = require('graphql-request');
 const { marketPlaceUrl, category } = require('../../config');
 const { Op } = require("sequelize");
 import { sequelize  } from '../../sequelize';
-const { getDateRange, getCurrentDateAsNumber} = require('../../utils/appUtils');
+const { getDateRange, convertToUnixTimestampOfDate } = require('../../utils/appUtils');
 const { orders, nftDataProcess } = sequelize.models;
 
 // GraphQL query string with the subgraph query
-function generateGraphQLQuery(category, first, skip, updatedAt_gt) {
+function generateGraphQLQuery(category, first, skip, updatedAt) {
+
+  let dataRange = convertToUnixTimestampOfDate(updatedAt)
+
   return `
     {
-      orders(first: ${first}, skip: ${skip}, orderBy: updatedAt, orderDirection: asc, where: { status: sold, category: "${category}", updatedAt_gt: "${updatedAt_gt}" }) {
+      orders(first: ${first}, skip: ${skip}, orderBy: updatedAt, orderDirection: asc, where: { status: sold, category: "${category}", updatedAt_gte: "${dataRange.startOfDay}",  updatedAt_lte: "${dataRange.endOfDay}"}) {  
         category
         price
         status
@@ -120,7 +123,7 @@ export const processMarketplaceByDate = async (categoryInput, day, pageSize, pag
   }
 };
 
-export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, updatedAt_gt, maxPage) => {
+export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, updatedAt, maxPage) => {
   try {
     const results = [];
     let savedRecordsCount = 0;
@@ -128,11 +131,11 @@ export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, up
     let page = pageNumber;
 
     //mark it as pending process
-    await nftDataProcess.update({ status: 'Pending' }, { where: { processDate: updatedAt_gt, type: categoryReq} });
+    await nftDataProcess.update({ status: 'Pending' }, { where: { processDate: updatedAt, type: categoryReq} });
     console.log("hasNextPage", hasNextPage)
     while (hasNextPage) {
       // Generate the GraphQL query
-      logger.info("fetch market data, page: %s, pageSize: %s, updatedAt_gt: %s", page, pageSize, updatedAt_gt);
+      logger.info("fetch market data, page: %s, pageSize: %s, updatedAt: %s", page, pageSize, updatedAt);
 
       if (page >= maxPage) {
         hasNextPage = false;
@@ -145,7 +148,7 @@ export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, up
       //   skip = 5000;
       //   hasNextPage = false; // Terminate after fetching the maximum allowed records
       // }
-      const query = generateGraphQLQuery(categoryReq, pageSize, skip, updatedAt_gt);
+      const query = generateGraphQLQuery(categoryReq, pageSize, skip, updatedAt);
       // Execute the GraphQL query
       const pageResults = await request(marketPlaceUrl, query);
       // Check if pageResults is a valid array of orders
@@ -159,7 +162,7 @@ export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, up
             await sequelize.models.orders.create({
               category: order.category,
               nftId: order.nft.id,
-              processDate: updatedAt_gt,
+              processDate: updatedAt,
               price: order.price,
               status: order.status,
               orderId: order.id,
@@ -184,12 +187,12 @@ export const getMarketplacePaging = async (categoryReq, pageSize, pageNumber, up
     }
 
     //mark it as complete after all process are done
-    await nftDataProcess.update({ status: 'Complete' }, { where: { processDate: updatedAt_gt, type: categoryReq } });
+    await nftDataProcess.update({ status: 'Complete' }, { where: { processDate: updatedAt, type: categoryReq } });
 
     return savedRecordsCount;
   } catch (error) {
     logger.error('Error executing query getMarketplace:', error);
-    await nftDataProcess.update({ status: 'Complete' }, { where: { processDate: updatedAt_gt, type: categoryReq } });
+    await nftDataProcess.update({ status: 'Complete' }, { where: { processDate: updatedAt, type: categoryReq } });
     // throw error; // Rethrow the error to be handled by the caller
   }
 };
