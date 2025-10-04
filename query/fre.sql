@@ -4,6 +4,19 @@ SELECT COUNT(*), process_date FROM orders;
 SELECT COUNT(nft_id), nft_id FROM orders
 WHERE process_date BETWEEN 20230101 AND 20231231 GROUP BY nft_id HAVING COUNT(nft_id)>1 ORDER BY COUNT(nft_id) DESC;
 
+select count(nft_id), nft_id from orders 
+where process_date between 20230101 and 20231231 group by nft_id having count(nft_id)>1;
+
+select count(nft_id), nft_id from orders 
+where process_date between 20230101 and 20231231 group by nft_id having count(nft_id)>1 order by count(nft_id) desc;
+
+select avg(price), process_date from orders 
+where process_date between 20230101 and 20231231 group by process_date;
+
+SELECT CONCAT(ROUND(AVG(LEFT(price, LENGTH(price) - 15)), 0), '000000000000000') AS avg_price, process_date FROM orders
+where process_date between 20230101 and 20231231 group by process_date;
+
+
 CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category` varchar(50) DEFAULT NULL,
@@ -23,6 +36,13 @@ CREATE TABLE `nft_data_process` (
   `type` varchar(20) NOT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `last_update_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `nft_daily price` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `process_date` int NOT NULL,
+  `price` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 

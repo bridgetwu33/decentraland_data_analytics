@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = -namesequelize');
 
 // We export a function that defines the model.
 module.exports = (sequelize) => {
